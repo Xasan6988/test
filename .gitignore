@@ -10,8 +10,9 @@ yarn-error.log*
 
 .vscode/*
 
+.idea
+.idea/
 /.idea
 .development.env
 .production.env
 
-.idea
