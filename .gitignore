@@ -13,6 +13,6 @@ yarn-error.log*
 .idea
 .idea/
 /.idea
-.development.env
+/.development.env
 .production.env
 
