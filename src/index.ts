@@ -5,18 +5,21 @@ import dotenv from "dotenv";
 import mongo from "mongoose";
 import {userRouter} from "./routes/user.route";
 
-dotenv.config({path: "./.development.env"});
+// Check the environment variables
+if (process.env.NODE_ENV === 'development') {
+    dotenv.config({ path: './.development.env' });
+} else if (process.env.NODE_ENV === 'production') {
+    dotenv.config({ path: './.production.env' });
+}
 
 const port = process.env.PORT || 3000;
 const MONGO_URL = process.env.MONGO_URL;
-
 
 const app = express();
 
 app.use(express.json(), cors());
 
 app.use('/', userRouter);
-
 
 (async () => {
     try {
@@ -33,5 +36,6 @@ app.use('/', userRouter);
         });
     } catch (e) {
         logger.error(e);
+        process.exit(1);
     }
 })()

@@ -13,7 +13,8 @@ const router = Router();
 router.post(
     '/sign-up',
     body('email').notEmpty().isEmail().trim(),
-    body('password').notEmpty(), body('name').notEmpty().isString().trim(),
+    body('password').notEmpty(),
+    body('name').notEmpty().isString().trim(),
     body('birthday').notEmpty(),
     async (req, res) => {
 
@@ -126,12 +127,13 @@ router.post(
     });
 
 // get user by id
-router.get('/users:id', authMiddleware, async (req, res) => {
+router.get('/users/:id', authMiddleware, async (req, res) => {
     try {
         const id = req?.params?.id;
+
         const {role, id: tokenUserId} = (req as unknown as Request & { user: IUser })?.user;
 
-        if (role !== 'admin' && id !== tokenUserId) {
+        if (role !== Role.ADMIN && id !== tokenUserId) {
             return res.status(403).json({
                 message: 'You are not allowed to get this user'
             });
@@ -186,7 +188,7 @@ router.get('/users', authMiddleware, async (req, res) => {
 })
 
 // ban user by admin or self ban
-router.put('/users:id/ban', authMiddleware, async (req, res) => {
+router.put('/users/:id/ban', authMiddleware, async (req, res) => {
     try {
         const id = req?.params?.id;
         const {role, id: tokenUserId} = (req as unknown as Request & { user: IUser })?.user;

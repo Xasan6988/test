@@ -14,6 +14,7 @@ export const authMiddleware: Middleware = (req, res, next) => {
         next();
 
     } catch (e: Error | any) {
+        res.status(401).json({message: 'Unauthorized'});
         logger.error('Unauthorized: ' + e.message);
     }
 }
